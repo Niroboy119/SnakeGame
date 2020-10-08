@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 
 namespace SnakeGame
 {
@@ -16,7 +17,7 @@ namespace SnakeGame
             ConsoleKeyInfo consoleKey; // holds whatever key is pressed
 
             // location info & display
-            int x = 0, y = 2; // y is 2 to allow the top row for directions & space
+            public int x = 0, y = 2; // y is 2 to allow the top row for directions & space
             int dx = 1, dy = 0;
             int consoleWidthLimit = 79;
             int consoleHeightLimit = 24;
@@ -31,6 +32,9 @@ namespace SnakeGame
             // whether to keep trails
             bool trail = false;
 
+            
+            
+
             do // until escape
             {
                 // print directions at top, then restore position
@@ -41,6 +45,10 @@ namespace SnakeGame
                 Console.WriteLine("Arrows move up/down/right/left. Press 'esc' quit.");
                 Console.SetCursorPosition(x, y);
                 Console.ForegroundColor = cc;
+
+                // Call timer function to active generation of 
+                // food at random intervals
+                Timer();
 
                 // see if a key has been pressed
                 if (Console.KeyAvailable)
@@ -103,6 +111,27 @@ namespace SnakeGame
                 System.Threading.Thread.Sleep(delayInMillisecs);
 
             } while (gameLive);
+        }
+
+        static void generateFood()
+        {
+            int maxXpos = pbCanvas.Size.Width / Settings.Width;
+            // create a maximum X position int with half the size of the play area
+            int maxYpos = pbCanvas.Size.Height / Settings.Height;
+            // create a maximum Y position int with half the size of the play area
+            Random rnd = new Random(); // create a new random class
+            x = maxXpos;
+            y = maxYpos; 
+            // create a new food with a random x and y
+        }
+
+        static void Timer()
+        {
+        	System.Timers.Timer timer = new System.Timers.Timer(TimeSpan.FromMinutes(0.3).TotalMilliseconds);
+			timer.AutoReset = true;
+			timer.Elapsed += new System.Timers.ElapsedEventHandler(generateFood);
+			timer.Start();
+
         }
     }
     
