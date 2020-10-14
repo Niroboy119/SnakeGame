@@ -1,5 +1,6 @@
 ﻿using System;
 using static System.Console;
+using System.Collections.Generic;
 
 namespace SnakeGame
 {
@@ -12,19 +13,29 @@ namespace SnakeGame
             Console.ReadKey();
 
             // display this char on the console during the game
-            char ch = '*';
+            List<string> ch = new List<string>();
+            ch.Add("*");
+            ch.Add("*");
+            ch.Add("*");
             bool gameLive = true;
             ConsoleKeyInfo consoleKey; // holds whatever key is pressed
 
             var rand = new Random();
 
             // location info & display
-            public int x = 0, y = 2; // y is 2 to allow the top row for directions & space
+            int x = 3, y = 4; // y is 2 to allow the top row for directions & space
             int dx = 1, dy = 0;
             int consoleWidthLimit = 79;
             int consoleHeightLimit = 24;
-
+            bool isUP = false;
             var food = new Food(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
+            List<int> st = new List<int>();
+            st.Add(x);
+            st.Add(y);
+            st.Add(x + 1);
+            st.Add(y);
+            st.Add(x + 2);
+            st.Add(y);
 
             // clear to color
             Console.BackgroundColor = ConsoleColor.DarkGray;
@@ -63,21 +74,25 @@ namespace SnakeGame
                             dx = 0;
                             dy = -1;
                             Console.ForegroundColor = ConsoleColor.Red;
+                            isUP = true;
                             break;
                         case ConsoleKey.DownArrow: // DOWN
                             dx = 0;
                             dy = 1;
                             Console.ForegroundColor = ConsoleColor.Cyan;
+                            isUP = true;
                             break;
                         case ConsoleKey.LeftArrow: //LEFT
                             dx = -1;
                             dy = 0;
                             Console.ForegroundColor = ConsoleColor.Green;
+                            isUP = false;
                             break;
                         case ConsoleKey.RightArrow: //RIGHT
                             dx = 1;
                             dy = 0;
                             Console.ForegroundColor = ConsoleColor.Black;
+                            isUP = false;
                             break;
                         case ConsoleKey.Escape: //END
                             gameLive = false;
@@ -88,7 +103,15 @@ namespace SnakeGame
                 // find the current position in the console grid & erase the character there if don't want to see the trail
                 Console.SetCursorPosition(x, y);
                 if (trail == false)
-                    Console.Write(' ');
+                {
+
+                    for (int i = 0; i < st.Count / 2; i++)
+                    {
+                        Console.SetCursorPosition(st[i * 2], st[(2 * i) + 1]);
+                        Console.Write(" ");
+                    }
+
+                }
 
                 // calculate the new position
                 // note x set to 0 because we use the whole width, but y set to 1 because we use top row for instructions
@@ -106,7 +129,28 @@ namespace SnakeGame
 
                 // write the character in the new position
                 Console.SetCursorPosition(x, y);
-                Console.Write(ch);
+                st[0] = x;
+                st[1] = y;
+
+                Console.Write(ch[0]);
+                for (int i = 1; i < ch.Count; i++)
+                {
+                    if (isUP == true)
+                    {
+                        Console.SetCursorPosition(x, y + i);
+                        st[2 * i] = x;
+                        st[(2 * i) + 1] = y + i;
+                        Console.Write(ch[i]);
+                    }
+                    else if (isUP == false)
+                    {
+                        Console.SetCursorPosition(x + i, y);
+                        st[2 * i] = x + i;
+                        st[(2 * i) + 1] = y;
+                        Console.Write(ch[i]);
+                    }
+
+                }
 
                 // increments the time passed
                 tickTime += 1;
