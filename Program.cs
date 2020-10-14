@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Timers;
+using static System.Console;
 
 namespace SnakeGame
 {
@@ -16,11 +16,15 @@ namespace SnakeGame
             bool gameLive = true;
             ConsoleKeyInfo consoleKey; // holds whatever key is pressed
 
+            var rand = new Random();
+
             // location info & display
             public int x = 0, y = 2; // y is 2 to allow the top row for directions & space
             int dx = 1, dy = 0;
             int consoleWidthLimit = 79;
             int consoleHeightLimit = 24;
+
+            var food = new Food(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
 
             // clear to color
             Console.BackgroundColor = ConsoleColor.DarkGray;
@@ -32,7 +36,8 @@ namespace SnakeGame
             // whether to keep trails
             bool trail = false;
 
-            
+            // keeps track of time passed
+            int tickTime = 0;
             
 
             do // until escape
@@ -45,10 +50,6 @@ namespace SnakeGame
                 Console.WriteLine("Arrows move up/down/right/left. Press 'esc' quit.");
                 Console.SetCursorPosition(x, y);
                 Console.ForegroundColor = cc;
-
-                // Call timer function to active generation of 
-                // food at random intervals
-                Timer();
 
                 // see if a key has been pressed
                 if (Console.KeyAvailable)
@@ -107,32 +108,54 @@ namespace SnakeGame
                 Console.SetCursorPosition(x, y);
                 Console.Write(ch);
 
+                // increments the time passed
+                tickTime += 1;
+
+                if (tickTime >= 50)
+                {
+                    // lock on to current position of food
+                    SetCursorPosition(food.XPos, food.YPos);
+                    // erase the current position of food (to not form a trail)
+                    if (trail == false)
+                    {
+                        Console.Write(' ');
+                    }
+                    // draw a new food at a random location on the screen
+                    food = DrawFood(food, rand, consoleWidthLimit, consoleHeightLimit);
+
+                    // set timer back to zero
+                    tickTime = 0;
+                }
+
                 // pause to allow eyeballs to keep up
                 System.Threading.Thread.Sleep(delayInMillisecs);
 
             } while (gameLive);
         }
 
-        static void generateFood()
+        // contains all information of the food
+        struct Food
         {
-            int maxXpos = pbCanvas.Size.Width / Settings.Width;
-            // create a maximum X position int with half the size of the play area
-            int maxYpos = pbCanvas.Size.Height / Settings.Height;
-            // create a maximum Y position int with half the size of the play area
-            Random rnd = new Random(); // create a new random class
-            x = maxXpos;
-            y = maxYpos; 
-            // create a new food with a random x and y
+            public Food(int xPos, int yPos)
+            {
+                XPos = xPos;
+                YPos = yPos;
+            }
+            public int XPos { get; set; }
+            public int YPos { get; set; }
         }
 
-        static void Timer()
+        // method to insert food onto the screen
+        static Food DrawFood(Food food, Random random, int consWidth, int consHeight)
         {
-        	System.Timers.Timer timer = new System.Timers.Timer(TimeSpan.FromMinutes(0.3).TotalMilliseconds);
-			timer.AutoReset = true;
-			timer.Elapsed += new System.Timers.ElapsedEventHandler(generateFood);
-			timer.Start();
-
+            food.XPos = random.Next(1, consWidth - 2);
+            food.YPos = random.Next(1, consHeight - 2);
+            SetCursorPosition(food.XPos, food.YPos);
+            Console.Write("O");
+            SetCursorPosition(0, 0);
+            return food;
         }
+
     }
     
 }
