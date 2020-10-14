@@ -1,4 +1,5 @@
 ﻿using System;
+using static System.Console;
 
 namespace SnakeGame
 {
@@ -15,11 +16,15 @@ namespace SnakeGame
             bool gameLive = true;
             ConsoleKeyInfo consoleKey; // holds whatever key is pressed
 
+            var rand = new Random();
+
             // location info & display
-            int x = 0, y = 2; // y is 2 to allow the top row for directions & space
+            public int x = 0, y = 2; // y is 2 to allow the top row for directions & space
             int dx = 1, dy = 0;
             int consoleWidthLimit = 79;
             int consoleHeightLimit = 24;
+
+            var food = new Food(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
 
             // clear to color
             Console.BackgroundColor = ConsoleColor.DarkGray;
@@ -30,6 +35,10 @@ namespace SnakeGame
 
             // whether to keep trails
             bool trail = false;
+
+            // keeps track of time passed
+            int tickTime = 0;
+            
 
             do // until escape
             {
@@ -99,11 +108,54 @@ namespace SnakeGame
                 Console.SetCursorPosition(x, y);
                 Console.Write(ch);
 
+                // increments the time passed
+                tickTime += 1;
+
+                if (tickTime >= 50)
+                {
+                    // lock on to current position of food
+                    SetCursorPosition(food.XPos, food.YPos);
+                    // erase the current position of food (to not form a trail)
+                    if (trail == false)
+                    {
+                        Console.Write(' ');
+                    }
+                    // draw a new food at a random location on the screen
+                    food = DrawFood(food, rand, consoleWidthLimit, consoleHeightLimit);
+
+                    // set timer back to zero
+                    tickTime = 0;
+                }
+
                 // pause to allow eyeballs to keep up
                 System.Threading.Thread.Sleep(delayInMillisecs);
 
             } while (gameLive);
         }
+
+        // contains all information of the food
+        struct Food
+        {
+            public Food(int xPos, int yPos)
+            {
+                XPos = xPos;
+                YPos = yPos;
+            }
+            public int XPos { get; set; }
+            public int YPos { get; set; }
+        }
+
+        // method to insert food onto the screen
+        static Food DrawFood(Food food, Random random, int consWidth, int consHeight)
+        {
+            food.XPos = random.Next(1, consWidth - 2);
+            food.YPos = random.Next(1, consHeight - 2);
+            SetCursorPosition(food.XPos, food.YPos);
+            Console.Write("O");
+            SetCursorPosition(0, 0);
+            return food;
+        }
+
     }
     
 }
