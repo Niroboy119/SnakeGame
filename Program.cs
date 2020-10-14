@@ -169,6 +169,12 @@ namespace SnakeGame
 
                     // set timer back to zero
                     tickTime = 0;
+                }else if((st[0]==food.XPos&&st[1]==food.YPos)|| (st[st.Count-2] == food.XPos && st[st.Count-1] == food.YPos))
+                {
+                    ch.Add("*");
+                    st.Add(x + ch.Count);
+                    st.Add(y);
+                    food = DrawFood(food, rand, consoleWidthLimit, consoleHeightLimit);
                 }
 
                 // pause to allow eyeballs to keep up
