@@ -28,6 +28,7 @@ namespace SnakeGame
             int consoleWidthLimit = 79;
             int consoleHeightLimit = 24;
             bool isUP = false;
+            int score = 0;
             var food = new Food(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
             List<int> st = new List<int>();
             st.Add(x);
@@ -171,12 +172,15 @@ namespace SnakeGame
                     tickTime = 0;
                 }else if((st[0]==food.XPos&&st[1]==food.YPos)|| (st[st.Count-2] == food.XPos && st[st.Count-1] == food.YPos))
                 {
+                    score += 1;
                     ch.Add("*");
                     st.Add(x + ch.Count);
                     st.Add(y);
                     food = DrawFood(food, rand, consoleWidthLimit, consoleHeightLimit);
                 }
 
+                SetCursorPosition(110, 0);
+                Console.WriteLine("SCORE: " + score);
                 // pause to allow eyeballs to keep up
                 System.Threading.Thread.Sleep(delayInMillisecs);
 
