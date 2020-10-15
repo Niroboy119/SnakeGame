@@ -1,6 +1,7 @@
 ﻿using System;
 using static System.Console;
 using System.Collections.Generic;
+
 namespace SnakeGame
 {
     class Program
@@ -15,6 +16,9 @@ namespace SnakeGame
             // display this char on the console during the game
 
             List<string> ch = new List<string>();
+
+            // stores the obstacles created
+			List<Obstacle> obstacleList = new List<Obstacle>();
             ch.Add("*");
             ch.Add("*");
             ch.Add("*");
@@ -22,6 +26,8 @@ namespace SnakeGame
             ConsoleKeyInfo consoleKey; // holds whatever key is pressed
             int score = 0;
             var rand = new Random();
+            // set player lives left
+            int playerLife = 2;
 
             // location info & display
             int x = 3, y = 4; // y is 2 to allow the top row for directions & space
@@ -59,7 +65,8 @@ namespace SnakeGame
                 if ((obstacle.XPosObs > 3 || obstacle.XPosObs < 3))
                 {
                     obstacle = DrawObstacle(obstacle, rand, consoleWidthLimit, consoleHeightLimit);
-
+                    // add the obstacles created in to the list
+					obstacleList.Add(obstacle);
                 }
 
             }
@@ -191,7 +198,19 @@ namespace SnakeGame
                     // set timer back to zero
                     tickTime = 0;
                 }
-                else if ((st[0] == food.XPos && st[1] == food.YPos) || (st[st.Count - 2] == food.XPos && st[st.Count - 1] == food.YPos))
+
+                // check every obstacle location and sees wheather
+				// the snake head position overlaps with an obstacles position
+				for (int i = 0; i < obstacleList.Count; i++)
+				{
+					if ((st[0] == obstacleList[i].XPosObs && st[1] == obstacleList[i].YPosObs) || (st[st.Count - 2] == obstacleList[i].XPosObs && st[st.Count - 1] == obstacleList[i].YPosObs))
+					{
+						// reduced player life by 1
+						playerLife -= 1;
+					}
+				}
+
+                if ((st[0] == food.XPos && st[1] == food.YPos) || (st[st.Count - 2] == food.XPos && st[st.Count - 1] == food.YPos))
                 {
                     score += 1;
                     ch.Add("*");
@@ -200,13 +219,41 @@ namespace SnakeGame
                     food = DrawFood(food, rand, consoleWidthLimit, consoleHeightLimit);
                 }
 
+                // checks player has anymore lives left
+				if (playerLife == 0)
+				{
+					gameLive = false;
+				}
+
+				// display current score and lives left
                 SetCursorPosition(110, 0);
                 Console.WriteLine("Score: " + score);
+                SetCursorPosition(80, 0);
+				Console.WriteLine("Player Life: " + playerLife);
 
                 // pause to allow eyeballs to keep up
                 System.Threading.Thread.Sleep(delayInMillisecs);
 
             } while (gameLive);
+
+            // clears the sreen and displays to the user that game is over and
+			// display the player score
+			Console.Clear();
+			ConsoleColor endScreenBackground = Console.ForegroundColor;
+			Console.ForegroundColor = ConsoleColor.White;
+			Console.SetCursorPosition(0, 0);
+			Console.WriteLine("Game over your score is " + score);
+			Console.WriteLine("Press 'Enter' to quit");
+			//Console.ForegroundColor = endScreenBackground;
+			ConsoleKeyInfo keycheck;
+			keycheck = Console.ReadKey();
+
+			while (keycheck.Key != ConsoleKey.Enter)
+			{
+				Console.WriteLine("Press 'Enter' to quit please");
+
+				keycheck = Console.ReadKey();
+			}
 
         }
 
