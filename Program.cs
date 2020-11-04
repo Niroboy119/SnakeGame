@@ -10,8 +10,52 @@ namespace SnakeGame
         static void Main(string[] args)
         {
             // start game
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("\t\t                    Snake Game");
+            Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("\n1. Play Game!");
+            Console.WriteLine("2. Exit.");
+
+            int foodCountLimit = 50;
+            int obstacleLimit = 6;
+            // delay to slow down the character movement so you can see it
+            int delayInMillisecs = 50;
+            string[] arr = { "1", "2" };
+            string menuChoice = validEntry(arr);
+
+            if (menuChoice == "1")
+            {
+                Console.Clear();
+                Console.WriteLine("Choose a Difficulty: ");
+                Console.WriteLine("\n1. Easy");
+                Console.WriteLine("2. Intermediate");
+                Console.WriteLine("3. Hard");
+                string[] arr1 = { "1", "2", "3" };
+                string diff = validEntry(arr1);
+
+                if (diff == "2")
+
+                {
+                    foodCountLimit = 40;
+                    obstacleLimit = 10;
+                    delayInMillisecs = 35;
+                }
+                else if (diff == "3")
+                {
+                    foodCountLimit = 35;
+                    obstacleLimit = 15;
+                    delayInMillisecs = 30;
+                }
+
+            }
+            else if (menuChoice == "2")
+            {
+                Environment.Exit(0);
+            }
+
+
+
+
 
             // display this char on the console during the game
 
@@ -27,7 +71,7 @@ namespace SnakeGame
             int score = 0;
             var rand = new Random();
             // set player lives left
-            int playerLife = 1;
+            int playerLife = 2;
 
             // location info & display
             int x = 3, y = 4; // y is 2 to allow the top row for directions & space
@@ -43,16 +87,14 @@ namespace SnakeGame
             st.Add(x + 2);
             st.Add(y);
             var food = new Food(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
-            var powerUpFood = new Food(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
             var obstacle = new Obstacle(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
+            bool[] exist = new bool[obstacleLimit];
+            var powerUpFood = new Food(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
 
 
             // clear to color
             Console.BackgroundColor = ConsoleColor.DarkGray;
             Console.Clear();
-
-            // delay to slow down the character movement so you can see it
-            int delayInMillisecs = 50;
 
             // whether to keep trails
             bool trail = false;
@@ -63,8 +105,9 @@ namespace SnakeGame
             // keeps tracks of how many times powerup food is consumed by snake   
             int powerFoodCount = 0;
 
+
             // This loop draws new Obstacles at a random locations on the screen
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < obstacleLimit; i++)
             {
                 if ((obstacle.XPosObs > 3 || obstacle.XPosObs < 3))
                 {
@@ -75,6 +118,10 @@ namespace SnakeGame
 
             }
 
+            for (int i = 0; i < obstacleLimit; i++)
+            {
+                exist[i] = true;
+            }
 
             do // until escape
             {
@@ -137,6 +184,9 @@ namespace SnakeGame
                     }
 
                 }
+
+
+
                 // calculate the new position
                 // note x set to 0 because we use the whole width, but y set to 1 because we use top row for instructions
                 x += dx;
@@ -178,12 +228,11 @@ namespace SnakeGame
 
                 // increments the time passed
                 tickTime += 1;
-                
 
-                if (tickTime >= 50)
+                if (tickTime >= foodCountLimit)
                 {
                     // the powerupfood can only be consumed 3 times 
-                    if ( (rand.Next(1, 100) <= 40) && powerFoodCount < 3)
+                    if ((rand.Next(1, 100) <= 40) && powerFoodCount < 3)
                     {
                         // lock on to current position of food
                         SetCursorPosition(powerUpFood.XPos, powerUpFood.YPos);
@@ -211,20 +260,22 @@ namespace SnakeGame
                         // draw a new food at a random location on the screen while avoiding the obstacle
                         food = DrawFood(food, rand, consoleWidthLimit, consoleHeightLimit);
                     }
-
                     // set timer back to zero
                     tickTime = 0;
                 }
-                
-
                 // check every obstacle location and sees wheather
                 // the snake head position overlaps with an obstacles position
                 for (int i = 0; i < obstacleList.Count; i++)
                 {
-                    if ((st[0] == obstacleList[i].XPosObs && st[1] == obstacleList[i].YPosObs) || (st[st.Count - 2] == obstacleList[i].XPosObs && st[st.Count - 1] == obstacleList[i].YPosObs))
+                    if (exist[i] == true && (((st[0] >= obstacleList[i].XPosObs && st[0] <= obstacleList[i].XPosObs + 1) && st[1] == obstacleList[i].YPosObs) || ((st[st.Count - 2] >= obstacleList[i].XPosObs && (st[st.Count - 2] <= obstacleList[i].XPosObs + 1) && st[st.Count - 1] == obstacleList[i].YPosObs))))
                     {
                         // reduced player life by 1
                         playerLife -= 1;
+                        SetCursorPosition(obstacleList[i].XPosObs, obstacleList[i].YPosObs);
+                        Console.Write("  ");
+                        exist[i] = false;
+
+
                     }
                 }
 
@@ -234,8 +285,9 @@ namespace SnakeGame
                     ch.Add("*");
                     st.Add(x + ch.Count);
                     st.Add(y);
-                    //food = DrawFood(food, rand, consoleWidthLimit, consoleHeightLimit);
+                    food = DrawFood(food, rand, consoleWidthLimit, consoleHeightLimit);
                 }
+
 
                 // checks if snake hits a powerUp food object
                 if ((st[0] == powerUpFood.XPos && st[1] == powerUpFood.YPos) || (st[st.Count - 2] == powerUpFood.XPos && st[st.Count - 1] == powerUpFood.YPos))
@@ -243,8 +295,11 @@ namespace SnakeGame
                     // increase player life 
                     playerLife = playerLife + 1;
                     powerFoodCount++;
+                    powerUpFood.XPos = 0;
+                    powerUpFood.YPos = 0;
                     //powerUpFood = DrawFood(powerUpFood, rand, consoleWidthLimit, consoleHeightLimit);
                 }
+
 
                 if (score >= 2)
                 {
@@ -299,6 +354,7 @@ namespace SnakeGame
 
         }
 
+
         struct Food
         {
             public Food(int xPos, int yPos)
@@ -317,17 +373,6 @@ namespace SnakeGame
             food.YPos = random.Next(1, consHeight - 2);
             SetCursorPosition(food.XPos, food.YPos);
             Console.Write("O");
-            SetCursorPosition(0, 0);
-            return food;
-        }
-
-        // method to draw the powerUp food on the screen
-        static Food DrawPowerUpFood(Food food, Random random, int consWidth, int consHeight)
-        {
-            food.XPos = random.Next(1, consWidth - 2);
-            food.YPos = random.Next(1, consHeight - 2);
-            SetCursorPosition(food.XPos, food.YPos);
-            Console.Write("P");
             SetCursorPosition(0, 0);
             return food;
         }
@@ -352,6 +397,36 @@ namespace SnakeGame
             Console.Write("||");
             SetCursorPosition(0, 0);
             return obstacle;
+        }
+
+        static string validEntry(string[] arr)
+        {
+            bool entry = false;
+            string choice;
+            do
+            {
+                Console.WriteLine("\nChoose an Option to Proceed: ");
+                choice = Console.ReadLine();
+                for (int i = 0; i < arr.Length; i++)
+                {
+                    if (choice == arr[i])
+                    {
+                        entry = true;
+                    }
+                }
+            } while (entry == false);
+            return choice;
+        }
+
+        // method to draw the powerUp food on the screen
+        static Food DrawPowerUpFood(Food food, Random random, int consWidth, int consHeight)
+        {
+            food.XPos = random.Next(1, consWidth - 2);
+            food.YPos = random.Next(1, consHeight - 2);
+            SetCursorPosition(food.XPos, food.YPos);
+            Console.Write("P");
+            SetCursorPosition(0, 0);
+            return food;
         }
 
 
