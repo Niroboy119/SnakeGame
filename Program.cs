@@ -60,7 +60,7 @@ namespace SnakeGame
             // keeps track of time passed
             int tickTime = 0;
 
-            // keeps tracks of how many times powerup food is consumed    
+            // keeps tracks of how many times powerup food is consumed by snake   
             int powerFoodCount = 0;
 
             // This loop draws new Obstacles at a random locations on the screen
