@@ -32,8 +32,8 @@ namespace SnakeGame
             // location info & display
             int x = 3, y = 4; // y is 2 to allow the top row for directions & space
             int dx = 1, dy = 0;
-            int consoleWidthLimit = 79;
-            int consoleHeightLimit = 24;
+            int consoleWidthLimit = 116;
+            int consoleHeightLimit = 30;
             bool isUP = false;
             List<int> st = new List<int>();
             st.Add(x);
