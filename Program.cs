@@ -11,88 +11,106 @@ namespace SnakeGame
 
 		static void Main(string[] args)
 		{
-			// start game
-			Console.WriteLine("--------------------------------------------------------------------------------");
-			Console.WriteLine("\t\t                    Snake Game");
-			Console.WriteLine("--------------------------------------------------------------------------------");
-			Console.WriteLine("\nEnter Player Name:");
-			string PlayerName = Console.ReadLine();
-			Console.WriteLine("\n1. Play Game!");
-			Console.WriteLine("2. Check Previous Scores.");
-			Console.WriteLine("3. Settings.");
-			Console.WriteLine("4. Exit.");
 
 			int foodCountLimit = 50;
 			int e = 0;
 			int obstacleLimit = 6;
 			// delay to slow down the character movement so you can see it
 			int delayInMillisecs = 50;
-			string[] arr = { "1", "2", "3" };
-			string menuChoice = validEntry(arr);
+			string[] arr = { "1", "2", "3", "4", "5" };
 			// details on beep sound effect
 			const int beepFreqency = 400;
 			const int beepDuration = 100;
 			string themeChoice = "0";
+			string menuChoice;
+			string PlayerName;
+			string[] lines = File.ReadAllLines("Track.txt");
 
-			if (menuChoice == "1")
+			// start game
+			Console.WriteLine("--------------------------------------------------------------------------------");
+			Console.WriteLine("\t\t                    Snake Game");
+			Console.WriteLine("--------------------------------------------------------------------------------");
+			Console.WriteLine("\nEnter Player Name:");
+			PlayerName = Console.ReadLine();
+
+			do
 			{
-				Console.Beep(beepFreqency + 100, beepDuration);
 				Console.Clear();
-				Console.WriteLine("Choose a Difficulty: ");
-				Console.WriteLine("\n1. Easy");
-				Console.WriteLine("2. Intermediate");
-				Console.WriteLine("3. Hard");
-				string[] arr1 = { "1", "2", "3" };
-				string diff = validEntry(arr1);
+				Console.WriteLine("\n1. Play Game!");
+				Console.WriteLine("2. Check Previous Scores.");
+				Console.WriteLine("3. Check Scoreboard.");
+				Console.WriteLine("4. Settings.");
+				Console.WriteLine("5. Exit.");
 
-				if (diff == "2")
-
+				menuChoice = validEntry(arr);
+				if (menuChoice == "1")
 				{
-					foodCountLimit = 40;
-					obstacleLimit = 10;
-					delayInMillisecs = 35;
-				}
-				else if (diff == "3")
-				{
-					foodCountLimit = 35;
-					obstacleLimit = 15;
-					delayInMillisecs = 30;
-				}
+					Console.Beep(beepFreqency + 100, beepDuration);
+					Console.Clear();
+					Console.WriteLine("Choose a Difficulty: ");
+					Console.WriteLine("\n1. Easy");
+					Console.WriteLine("2. Intermediate");
+					Console.WriteLine("3. Hard");
+					string[] arr1 = { "1", "2", "3" };
+					string diff = validEntry(arr1);
 
-			}
-			else if (menuChoice == "2")
-			{
-				Console.Beep(beepFreqency + 100, beepDuration);
-				string[] lines = File.ReadAllLines("Track.txt");
+					if (diff == "2")
 
-				for (e = 0; e < lines.Length; e++)
-				{
-
-					if (lines[e].Contains(PlayerName))
 					{
-						Console.WriteLine(lines[e]);
-
+						foodCountLimit = 40;
+						obstacleLimit = 10;
+						delayInMillisecs = 35;
 					}
+					else if (diff == "3")
+					{
+						foodCountLimit = 35;
+						obstacleLimit = 15;
+						delayInMillisecs = 30;
+					}
+
 				}
-				Console.WriteLine("Press any key to continue...");
-				Console.ReadKey(true);
-			}
-			else if (menuChoice == "3") {
-				Console.Beep(beepFreqency + 100, beepDuration);
+				else if (menuChoice == "2")
+				{
+					Console.Beep(beepFreqency + 100, beepDuration);
 
-				Console.WriteLine("---------Change Game Theme-----------");
-				Console.WriteLine("---Change game background to one of these following colors :");
-				Console.WriteLine("1. Blue");
-				Console.WriteLine("2. Black");
-				themeChoice = Console.ReadLine();
+					for (e = 0; e < lines.Length; e++)
+					{
 
-			}
-			else
-			{
-				Console.Beep(beepFreqency + 100, beepDuration);
-				Environment.Exit(0);
-			}
+						if (lines[e].Contains(PlayerName))
+						{
+							Console.WriteLine("\n" + lines[e]);
 
+						}
+					}
+					Console.WriteLine("\nPress any key to continue...");
+					Console.ReadKey(true);
+				}
+				else if (menuChoice == "3")
+				{
+					Console.Beep(beepFreqency + 100, beepDuration);
+					for (int i = 0; i < lines.Length; i++)
+					{
+						Console.WriteLine("\n" + lines[i]);
+					}
+					Console.WriteLine("\nPress any key to continue...");
+					Console.ReadKey(true);
+				}
+				else if (menuChoice == "4")
+				{
+					Console.Beep(beepFreqency + 100, beepDuration);
+
+					Console.WriteLine("---------Change Game Theme-----------");
+					Console.WriteLine("---Change game background to one of these following colors :");
+					Console.WriteLine("1. Blue");
+					Console.WriteLine("2. Black");
+					themeChoice = Console.ReadLine();
+				}
+				else if (menuChoice == "5")
+				{
+					Console.Beep(beepFreqency + 100, beepDuration);
+					Environment.Exit(0);
+				}
+			} while (menuChoice != "1");
 
 
 
@@ -135,10 +153,12 @@ namespace SnakeGame
 			if (themeChoice == "1")
 			{
 				Console.BackgroundColor = ConsoleColor.Blue;
-			}else if (themeChoice == "2")
+			}
+			else if (themeChoice == "2")
 			{
 				Console.BackgroundColor = ConsoleColor.Black;
-			}else
+			}
+			else
 			{
 				Console.BackgroundColor = ConsoleColor.DarkGray;
 			}
