@@ -1,0 +1,13 @@
+﻿<Properties StartupConfiguration="{0657EADE-2DAA-4C7B-89A6-CE3E91A0ED36}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.SnakeTest PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="SnakeTest\main.cs">
+    <Files>
+      <File FileName="SnakeTest\main.cs" Line="463" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+</Properties>
