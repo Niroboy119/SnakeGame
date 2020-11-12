@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using static System.Console;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace SnakeGame
 {
@@ -13,15 +15,21 @@ namespace SnakeGame
             Console.WriteLine("--------------------------------------------------------------------------------");
             Console.WriteLine("\t\t                    Snake Game");
             Console.WriteLine("--------------------------------------------------------------------------------");
+            Console.WriteLine("\nEnter Player Name:");
+            string PlayerName = Console.ReadLine();
             Console.WriteLine("\n1. Play Game!");
-            Console.WriteLine("2. Exit.");
+            Console.WriteLine("2. Check Previous Scores.");
+            Console.WriteLine("3. Exit.");
 
             int foodCountLimit = 50;
+            int e = 0;
             int obstacleLimit = 6;
             // delay to slow down the character movement so you can see it
             int delayInMillisecs = 50;
-            string[] arr = { "1", "2" };
+            string[] arr = { "1", "2", "3" };
             string menuChoice = validEntry(arr);
+
+
 
             if (menuChoice == "1")
             {
@@ -50,9 +58,24 @@ namespace SnakeGame
             }
             else if (menuChoice == "2")
             {
+                string[] lines = File.ReadAllLines("Track.txt");
+
+                for (e = 0; e < lines.Length; e++)
+                {
+
+                    if (lines[e].Contains(PlayerName))
+                    {
+                        Console.WriteLine(lines[e]);
+
+                    }
+                }
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey(true);
+            }
+            else if (menuChoice == "3")
+            {
                 Environment.Exit(0);
             }
-
 
 
 
@@ -303,7 +326,9 @@ namespace SnakeGame
 
                 if (score >= 2)
                 {
-
+                    //Pass the filepath and filename to the StreamWriter Constructor
+                    File.AppendAllText("Track.txt",
+                    (PlayerName + ": " + score) + Environment.NewLine);
                     gameLive = false;
 
                 }
@@ -311,7 +336,9 @@ namespace SnakeGame
                 // checks player has anymore lives left
                 if (playerLife == 0)
                 {
-
+                    File.AppendAllText("Track.txt",
+                   (PlayerName + ": " + score) + Environment.NewLine);
+                    //Close the file
                     gameLive = false;
                 }
 
@@ -338,7 +365,7 @@ namespace SnakeGame
             }
             else
             {
-                Console.WriteLine("Congradulations!!! you won, your score is " + score);
+                Console.WriteLine("Congratulations!!! you won, your score is " + score);
             }
             Console.WriteLine("Press 'Enter' to quit");
             //Console.ForegroundColor = endScreenBackground;
@@ -433,3 +460,4 @@ namespace SnakeGame
     }
 
 }
+
