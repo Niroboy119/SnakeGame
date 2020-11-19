@@ -6,12 +6,21 @@ using System.ComponentModel;
 
 namespace SnakeGame
 {
+
 	public class Program
 	{
+		// display this char on the console during the game
+		public List<string> ch = new List<string>();
+
+		//holds the position of the snake in the game
+		public List<int> st = new List<int>();
+
+		//holds the value of the player's score in the game
+		public int score = 0;
 
 		static void Main(string[] args)
 		{
-
+			Program prog = new Program();
 			int foodCountLimit = 50;
 			int e = 0;
 			int obstacleLimit = 6;
@@ -25,6 +34,7 @@ namespace SnakeGame
 			string menuChoice;
 			string PlayerName;
 			string[] lines = File.ReadAllLines("Track.txt");
+
 
 			// start game
 			Console.WriteLine("--------------------------------------------------------------------------------");
@@ -114,18 +124,15 @@ namespace SnakeGame
 
 
 
-			// display this char on the console during the game
 
-			List<string> ch = new List<string>();
 
 			// stores the obstacles created
 			List<Obstacle> obstacleList = new List<Obstacle>();
-			ch.Add("*");
-			ch.Add("*");
-			ch.Add("*");
+			prog.ch.Add("*");
+			prog.ch.Add("*");
+			prog.ch.Add("*");
 			bool gameLive = true;
 			ConsoleKeyInfo consoleKey; // holds whatever key is pressed
-			int score = 0;
 			var rand = new Random();
 			// set player lives left
 			int playerLife = 2;
@@ -136,13 +143,13 @@ namespace SnakeGame
 			int consoleWidthLimit = 116;
 			int consoleHeightLimit = 30;
 			bool isUP = false;
-			List<int> st = new List<int>();
-			st.Add(x);
-			st.Add(y);
-			st.Add(x + 1);
-			st.Add(y);
-			st.Add(x + 2);
-			st.Add(y);
+
+			prog.st.Add(x);
+			prog.st.Add(y);
+			prog.st.Add(x + 1);
+			prog.st.Add(y);
+			prog.st.Add(x + 2);
+			prog.st.Add(y);
 			var food = new Food(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
 			var obstacle = new Obstacle(rand.Next(1, consoleWidthLimit - 2), rand.Next(1, consoleHeightLimit - 2));
 			bool[] exist = new bool[obstacleLimit];
@@ -246,9 +253,9 @@ namespace SnakeGame
 				if (trail == false)
 				{
 
-					for (int i = 0; i < st.Count / 2; i++)
+					for (int i = 0; i < prog.st.Count / 2; i++)
 					{
-						Console.SetCursorPosition(st[i * 2], st[(2 * i) + 1]);
+						Console.SetCursorPosition(prog.st[i * 2], prog.st[(2 * i) + 1]);
 						Console.Write(" ");
 					}
 
@@ -272,25 +279,25 @@ namespace SnakeGame
 
 				// write the character in the new position
 				Console.SetCursorPosition(x, y);
-				st[0] = x;
-				st[1] = y;
+				prog.st[0] = x;
+				prog.st[1] = y;
 
-				Console.Write(ch[0]);
-				for (int i = 1; i < ch.Count; i++)
+				Console.Write(prog.ch[0]);
+				for (int i = 1; i < prog.ch.Count; i++)
 				{
 					if (isUP == true)
 					{
 						Console.SetCursorPosition(x, y + i);
-						st[2 * i] = x;
-						st[(2 * i) + 1] = y + i;
-						Console.Write(ch[i]);
+						prog.st[2 * i] = x;
+						prog.st[(2 * i) + 1] = y + i;
+						Console.Write(prog.ch[i]);
 					}
 					else if (isUP == false)
 					{
 						Console.SetCursorPosition(x + i, y);
-						st[2 * i] = x + i;
-						st[(2 * i) + 1] = y;
-						Console.Write(ch[i]);
+						prog.st[2 * i] = x + i;
+						prog.st[(2 * i) + 1] = y;
+						Console.Write(prog.ch[i]);
 					}
 
 				}
@@ -336,7 +343,7 @@ namespace SnakeGame
 				// the snake head position overlaps with an obstacles position
 				for (int i = 0; i < obstacleList.Count; i++)
 				{
-					if (exist[i] == true && (((st[0] >= obstacleList[i].XPosObs && st[0] <= obstacleList[i].XPosObs + 1) && st[1] == obstacleList[i].YPosObs) || ((st[st.Count - 2] >= obstacleList[i].XPosObs && (st[st.Count - 2] <= obstacleList[i].XPosObs + 1) && st[st.Count - 1] == obstacleList[i].YPosObs))))
+					if (exist[i] == true && (((prog.st[0] >= obstacleList[i].XPosObs && prog.st[0] <= obstacleList[i].XPosObs + 1) && prog.st[1] == obstacleList[i].YPosObs) || ((prog.st[prog.st.Count - 2] >= obstacleList[i].XPosObs && (prog.st[prog.st.Count - 2] <= obstacleList[i].XPosObs + 1) && prog.st[prog.st.Count - 1] == obstacleList[i].YPosObs))))
 					{
 						// reduced player life by 1
 						playerLife -= 1;
@@ -348,19 +355,16 @@ namespace SnakeGame
 					}
 				}
 
-				if ((st[0] == food.XPos && st[1] == food.YPos) || (st[st.Count - 2] == food.XPos && st[st.Count - 1] == food.YPos))
+				if ((prog.st[0] == food.XPos && prog.st[1] == food.YPos) || (prog.st[prog.st.Count - 2] == food.XPos && prog.st[prog.st.Count - 1] == food.YPos))
 				{
 					Console.Beep(beepFreqency, beepDuration);
-					score += 1;
-					ch.Add("*");
-					st.Add(x + ch.Count);
-					st.Add(y);
+					prog.IncreaseSnakeLength(prog, x, y);
 					food = DrawFood(food, rand, consoleWidthLimit, consoleHeightLimit);
 				}
 
 
 				// checks if snake hits a powerUp food object
-				if ((st[0] == powerUpFood.XPos && st[1] == powerUpFood.YPos) || (st[st.Count - 2] == powerUpFood.XPos && st[st.Count - 1] == powerUpFood.YPos))
+				if ((prog.st[0] == powerUpFood.XPos && prog.st[1] == powerUpFood.YPos) || (prog.st[prog.st.Count - 2] == powerUpFood.XPos && prog.st[prog.st.Count - 1] == powerUpFood.YPos))
 				{
 					Console.Beep(beepFreqency - 100, beepDuration);
 					// increase player life 
@@ -372,12 +376,12 @@ namespace SnakeGame
 				}
 
 
-				if (score >= 2)
+				if (prog.score >= 2)
 				{
 					Console.Beep(beepFreqency + 300, beepDuration);
 					//Pass the filepath and filename to the StreamWriter Constructor
 					File.AppendAllText("Track.txt",
-					(PlayerName + ": " + score) + Environment.NewLine);
+					(PlayerName + ": " + prog.score) + Environment.NewLine);
 					gameLive = false;
 
 				}
@@ -387,14 +391,14 @@ namespace SnakeGame
 				{
 					Console.Beep(beepFreqency + 300, beepDuration);
 					File.AppendAllText("Track.txt",
-				   (PlayerName + ": " + score) + Environment.NewLine);
+				   (PlayerName + ": " + prog.score) + Environment.NewLine);
 					//Close the file
 					gameLive = false;
 				}
 
 				// display current score and lives left
 				SetCursorPosition(110, 0);
-				Console.WriteLine("Score: " + score);
+				Console.WriteLine("Score: " + prog.score);
 				SetCursorPosition(80, 0);
 				Console.WriteLine("Player Life: " + playerLife);
 
@@ -409,13 +413,13 @@ namespace SnakeGame
 			ConsoleColor endScreenBackground = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.SetCursorPosition(0, 0);
-			if (score < 2)
+			if (prog.score < 2)
 			{
-				Console.WriteLine("Game over your score is " + score);
+				Console.WriteLine("Game over your score is " + prog.score);
 			}
 			else
 			{
-				Console.WriteLine("Congratulations!!! you won, your score is " + score);
+				Console.WriteLine("Congratulations!!! you won, your score is " + prog.score);
 			}
 			Console.WriteLine("Press 'Enter' to quit");
 			//Console.ForegroundColor = endScreenBackground;
@@ -506,6 +510,13 @@ namespace SnakeGame
 			return food;
 		}
 
+		public void IncreaseSnakeLength(Program prog, int posX, int posY)
+		{
+			prog.score += 1;
+			prog.ch.Add("*");
+			prog.st.Add(posX + prog.ch.Count);
+			prog.st.Add(posY);
+		}
 
 	}
 

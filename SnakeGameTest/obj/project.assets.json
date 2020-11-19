@@ -5737,11 +5737,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\sauds\\OneDrive\\Desktop\\Development Project\\SnakeGameFINAL\\SnakeGameTest\\SnakeGameTest.csproj",
+      "projectUniqueName": "C:\\Users\\sauds\\Desktop\\SnakeGameFINAL\\SnakeGame\\SnakeGameTest\\SnakeGameTest.csproj",
       "projectName": "SnakeGameTest",
-      "projectPath": "C:\\Users\\sauds\\OneDrive\\Desktop\\Development Project\\SnakeGameFINAL\\SnakeGameTest\\SnakeGameTest.csproj",
+      "projectPath": "C:\\Users\\sauds\\Desktop\\SnakeGameFINAL\\SnakeGame\\SnakeGameTest\\SnakeGameTest.csproj",
       "packagesPath": "C:\\Users\\sauds\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\sauds\\OneDrive\\Desktop\\Development Project\\SnakeGameFINAL\\SnakeGameTest\\obj\\",
+      "outputPath": "C:\\Users\\sauds\\Desktop\\SnakeGameFINAL\\SnakeGame\\SnakeGameTest\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\sauds\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -5757,8 +5757,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\sauds\\OneDrive\\Desktop\\Development Project\\SnakeGameFINAL\\SnakeGame\\SnakeGame.csproj": {
-              "projectPath": "C:\\Users\\sauds\\OneDrive\\Desktop\\Development Project\\SnakeGameFINAL\\SnakeGame\\SnakeGame.csproj"
+            "C:\\Users\\sauds\\Desktop\\SnakeGameFINAL\\SnakeGame\\SnakeGame\\SnakeGame.csproj": {
+              "projectPath": "C:\\Users\\sauds\\Desktop\\SnakeGameFINAL\\SnakeGame\\SnakeGame\\SnakeGame.csproj"
             }
           }
         }
