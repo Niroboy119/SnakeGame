@@ -413,15 +413,9 @@ namespace SnakeGame
 			ConsoleColor endScreenBackground = Console.ForegroundColor;
 			Console.ForegroundColor = ConsoleColor.White;
 			Console.SetCursorPosition(0, 0);
-			if (prog.score < 2)
-			{
-				Console.WriteLine("Game over your score is " + prog.score);
-			}
-			else
-			{
-				Console.WriteLine("Congratulations!!! you won, your score is " + prog.score);
-			}
-			Console.WriteLine("Press 'Enter' to quit");
+            Console.WriteLine("\nFinal Score: " + prog.score);
+            Console.WriteLine(prog.ScoreCheck(prog.score));
+            Console.WriteLine("Press 'Enter' to quit");
 			//Console.ForegroundColor = endScreenBackground;
 			ConsoleKeyInfo keycheck;
 			keycheck = Console.ReadKey();
@@ -518,7 +512,19 @@ namespace SnakeGame
 			prog.st.Add(posY);
 		}
 
-	}
+        public string ScoreCheck(int xscore)
+        {
+            if (xscore < 2)
+            {
+                return ("Game Over, You Lost. :(");
+            }
+            else
+            {
+                return ("Congratulations!!! You Won!!!.");
+            }
+        }
+
+    }
 
 }
 
