@@ -387,7 +387,7 @@ namespace SnakeGame
 				}
 
 				// checks player has anymore lives left
-				if (playerLife == 0)
+				if (prog.PlayerLifeCheck(playerLife) == true)
 				{
 					Console.Beep(beepFreqency + 300, beepDuration);
 					File.AppendAllText("Track.txt",
@@ -523,6 +523,19 @@ namespace SnakeGame
                 return ("Congratulations!!! You Won!!!.");
             }
         }
+
+        // method checks if the player life is below the accepted value
+		// returns bool value accordingly 
+		public bool PlayerLifeCheck(int pLife)
+		{
+			bool noMoreLives = false; 
+            if (pLife <= 0)
+            {
+				noMoreLives = true;
+            }
+
+			return noMoreLives;
+		}
 
     }
 
