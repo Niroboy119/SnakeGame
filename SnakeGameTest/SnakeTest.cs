@@ -18,5 +18,24 @@ namespace SnakeGameTest
             Assert.AreEqual(prog.ch.Count, 1);
             Assert.AreEqual(prog.score, 1);
         }
+
+        [TestMethod]
+        public void TestScoreResultCheck()
+        {
+
+            Program pro = new Program();
+            string result = pro.ScoreCheck(0);
+            string ExpectedLoss = "Game Over, You Lost. :(";
+            string ExpectedWin = "Congratulations!!! You Won!!!.";
+
+            Assert.AreEqual(result, ExpectedLoss);
+
+            string altResult = pro.ScoreCheck(2);
+
+            Assert.AreEqual(altResult, ExpectedWin);
+
+
+        }
     }
 }
+
