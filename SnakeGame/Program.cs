@@ -525,17 +525,16 @@ namespace SnakeGame
         }
 
         // method checks if the player life is below the accepted value
-		// returns bool value accordingly 
-		public bool PlayerLifeCheck(int pLife)
-		{
-			bool noMoreLives = false; 
+	// returns bool value accordingly 
+	public bool PlayerLifeCheck(int pLife)
+	{
+	    bool noMoreLives = false; 
             if (pLife <= 0)
             {
-				noMoreLives = true;
+		noMoreLives = true;
             }
-
-			return noMoreLives;
-		}
+	    return noMoreLives;
+	}
 
     }
 
