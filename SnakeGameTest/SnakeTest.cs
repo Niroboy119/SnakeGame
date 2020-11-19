@@ -1,5 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SnakeGameTest;
+using SnakeGame;
 namespace SnakeGameTest
 {
     [TestClass]
