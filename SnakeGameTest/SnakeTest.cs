@@ -6,9 +6,17 @@ namespace SnakeGameTest
     public class SnakeTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void increaseSnakeLength()
         {
-            Assert.AreEqual(1, 1);
+            Program prog = new Program();
+
+            Assert.AreEqual(prog.ch.Count, 0);
+            Assert.AreEqual(prog.score, 0);
+
+            prog.IncreaseSnakeLength(prog, 0, 0);
+
+            Assert.AreEqual(prog.ch.Count, 1);
+            Assert.AreEqual(prog.score, 1);
         }
     }
 }

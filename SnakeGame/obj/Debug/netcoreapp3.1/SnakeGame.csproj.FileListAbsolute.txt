@@ -57,3 +57,14 @@ C:\Users\sauds\OneDrive\Desktop\Development Project\SnakeGameFINAL\SnakeGame\obj
 C:\Users\sauds\OneDrive\Desktop\Development Project\SnakeGameFINAL\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.AssemblyInfo.cs
 C:\Users\sauds\OneDrive\Desktop\Development Project\SnakeGameFINAL\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.dll
 C:\Users\sauds\OneDrive\Desktop\Development Project\SnakeGameFINAL\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.pdb
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.exe
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.deps.json
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.runtimeconfig.json
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.runtimeconfig.dev.json
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.dll
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\bin\Debug\netcoreapp3.1\SnakeGame.pdb
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.csprojAssemblyReference.cache
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.AssemblyInfoInputs.cache
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.AssemblyInfo.cs
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.dll
+C:\Users\sauds\Desktop\SnakeGameFINAL\SnakeGame\SnakeGame\obj\Debug\netcoreapp3.1\SnakeGame.pdb
