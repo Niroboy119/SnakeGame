@@ -33,7 +33,26 @@ namespace SnakeGameTest
             string altResult = pro.ScoreCheck(2);
 
             Assert.AreEqual(altResult, ExpectedWin);
+        }
 
+        [TestMethod]
+        public void TestPlayerLifeCheck()
+        {
+            Program program = new Program();
+
+            // includes a player life value which would mean
+            // no lives are left (0)
+            bool pLifeCheckResult1 = program.PlayerLifeCheck(0);
+            bool expectedResult = true;
+
+            Assert.AreEqual(expectedResult,pLifeCheckResult1);
+
+            // inlcude a player life values which would mean
+            // the player life is not zero
+            bool pLifeCheckResult2 = program.PlayerLifeCheck(3);
+            bool expectedResult2 = false;
+
+            Assert.AreEqual(expectedResult2,pLifeCheckResult2);
 
         }
     }
